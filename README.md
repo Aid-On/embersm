@@ -1,91 +1,102 @@
 # @aid-on/embersm
 
-Cloudflare Workers 向けのメモリアーキテクチャ。LLM エージェントに長期記憶を提供する。
+<div align="center">
 
-## ベンチマーク結果
+[![npm version](https://img.shields.io/npm/v/@aid-on/embersm.svg?style=flat-square&color=00DC82)](https://www.npmjs.com/package/@aid-on/embersm)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
-LOCOMO ベンチマーク（100問）での評価結果：
+**Cloudflare Workers native 5-layer memory architecture**
 
-| 構成 | スコア | Mem0 比較 |
-|------|--------|-----------|
+Provide long-term memory for LLM agents
+
+**English** | [日本語](README.ja.md)
+
+</div>
+
+## Benchmark Results
+
+Evaluation on the LOCOMO benchmark (100 questions):
+
+| Configuration | Score | vs Mem0 |
+|---------------|-------|---------|
 | **Best (Semantic + Episode)** | **66-75%** | **+25-34%** |
-| 5-Layer (temporal/graph追加) | 47-55% | +6-14% |
+| 5-Layer (temporal/graph added) | 47-55% | +6-14% |
 
 > Mem0 baseline: 41%
 
-### ベスト構成
+### Best Configuration
 
-検証の結果、シンプルな構成が最も高いスコアを達成：
+The simplest configuration achieved the highest scores:
 
 ```
-Semantic Search (50件) + Episode Keyword (15件) + Recent (10件)
+Semantic Search (50 results) + Episode Keyword (15) + Recent (10)
 ```
 
-5層アーキテクチャ（Temporal/Graph追加）は現時点ではノイズになるため使用しない。
+The 5-layer architecture (with Temporal/Graph) introduces noise and is not recommended at this time.
 
-## アーキテクチャ
+## Architecture
 
-### ベスト構成（推奨）
+### Best Configuration (Recommended)
 
 ```mermaid
 flowchart TB
     Query["Query"] --> Semantic & Keyword & Recent
 
-    Semantic["Semantic Search<br/>(Vectorize)<br/>50件"]
-    Keyword["Episode Keyword<br/>(D1)<br/>15件"]
-    Recent["Episode Recent<br/>(D1)<br/>10件"]
+    Semantic["Semantic Search<br/>(Vectorize)<br/>50 results"]
+    Keyword["Episode Keyword<br/>(D1)<br/>15 results"]
+    Recent["Episode Recent<br/>(D1)<br/>10 results"]
 
-    Semantic & Keyword & Recent --> LLM["LLM回答"]
+    Semantic & Keyword & Recent --> LLM["LLM Response"]
 ```
 
-### 5層アーキテクチャ（実験的）
+### 5-Layer Architecture (Experimental)
 
-> 現時点では Temporal/Graph がノイズになるため、ベスト構成を推奨
+> Temporal/Graph layers introduce noise at this stage; the best configuration above is recommended
 
 ```
 Query Router → Semantic / Temporal / Graph / Episode → Fusion → LLM
 ```
 
-### 各レイヤーの役割
+### Layer Roles
 
-| レイヤー | ストレージ | 目的 | 応答時間 |
-|---------|-----------|------|---------|
-| **Flash** | KV | 直近のコンテキスト（数ターン） | ~1ms |
-| **Episode** | D1 | 会話履歴の完全保存 | ~5ms |
-| **Semantic** | Vectorize | ベクトル類似度検索 | ~10ms |
-| **Temporal** | D1 | 時間軸でのイベント管理 | ~5ms |
-| **Graph** | D1 | 事実・関係性の Prolog 形式保存 | ~5ms |
+| Layer | Storage | Purpose | Latency |
+|-------|---------|---------|---------|
+| **Flash** | KV | Recent context (last few turns) | ~1ms |
+| **Episode** | D1 | Full conversation history | ~5ms |
+| **Semantic** | Vectorize | Vector similarity search | ~10ms |
+| **Temporal** | D1 | Time-indexed event management | ~5ms |
+| **Graph** | D1 | Facts & relationships in Prolog format | ~5ms |
 
-## インストール
+## Installation
 
 ```bash
 npm install @aid-on/embersm
 ```
 
-## 使用方法
+## Usage
 
-### 基本的な使い方
+### Basic Usage
 
 ```typescript
 import { createEmbersM } from "@aid-on/embersm";
 
-// Cloudflare Workers の env から初期化
+// Initialize from Cloudflare Workers env
 const memory = createEmbersM(env);
 
-// 会話ターンを記録
+// Record a conversation turn
 await memory.extract(
   userId,
   threadId,
   userMessage,
-  assistantResponse,
-  turnIndex
+  assistantResponse
 );
 
-// メモリを検索
+// Query memory
 const context = await memory.query(userId, question);
 ```
 
-### D1 マイグレーション
+### D1 Migrations
 
 ```typescript
 import {
@@ -95,14 +106,14 @@ import {
   GRAPH_MIGRATION,
 } from "@aid-on/embersm";
 
-// D1 でテーブル作成
+// Create tables in D1
 await env.DB.exec(EPISODE_MIGRATION);
 await env.DB.exec(SEMANTIC_MIGRATION);
 await env.DB.exec(TEMPORAL_MIGRATION);
 await env.DB.exec(GRAPH_MIGRATION);
 ```
 
-### 環境設定
+### Environment Configuration
 
 `wrangler.toml`:
 
@@ -128,73 +139,69 @@ binding = "AI"
 
 ### `createEmbersM(env: EmbersMEnv): EmbersM`
 
-メインのファクトリ関数。
+Main factory function.
 
 ```typescript
 interface EmbersM {
-  // 会話ターンからメモリを抽出・保存
+  // Extract and store memories from a conversation turn
   extract(
     userId: string,
     threadId: string,
     userMessage: string,
-    assistantResponse: string,
-    turnIndex: number
+    assistantResponse: string
   ): Promise<MemoryUpdates>;
 
-  // メモリを検索してコンテキストを生成
+  // Query memory and generate context
   query(userId: string, question: string): Promise<MemoryContext>;
+
+  // Run D1 migrations
+  migrate(): Promise<void>;
 }
 ```
 
-### メモリコンテキスト
+### Memory Context
 
 ```typescript
 interface MemoryContext {
-  flash: string[];      // 直近の会話
-  episodes: string[];   // 関連する過去の会話
-  semantic: string[];   // 意味的に類似した内容
-  temporal: string[];   // 時間関連のイベント
-  graph: string[];      // 関係性・事実
-  fusedContext: string; // 統合されたコンテキスト
+  flash: string[];      // Recent conversation
+  episodes: string[];   // Related past conversations
+  semantic: string[];   // Semantically similar content
+  temporal: string[];   // Time-related events
+  graph: string[];      // Relationships & facts
+  fusedContext: string;  // Fused context string
 }
 ```
 
-## テスト
+## Testing
 
 ```bash
-# ユニットテスト
+# Unit tests
 npm test
 
-# ベンチマーク（モック環境）
+# Benchmarks (mock environment)
 npm run benchmark
-
-# 本番ベンチマーク（要 Cloudflare 認証情報）
-CLOUDFLARE_API_KEY="..." \
-CLOUDFLARE_EMAIL="..." \
-CLOUDFLARE_ACCOUNT_ID="..." \
-npx tsx scripts/benchmark-prod.ts
 ```
 
-## 技術的な特徴
+## Technical Highlights
 
-### Temporal Memory の高精度（94.4%）
+### High-Accuracy Temporal Memory (94.4%)
 
-- 会話から日時情報を自動抽出
-- 相対日時（「昨日」「先週」）を会話日時を基準に解決
-- イベントタイプ（単発/繰り返し/期間）を分類
+- Automatically extracts datetime information from conversations
+- Resolves relative dates ("yesterday", "last week") based on conversation timestamp
+- Classifies event types (one-time / recurring / duration)
 
 ### Semantic Search
 
-- Cloudflare Vectorize で高速ベクトル検索
-- BGE-base-en-v1.5 モデルで 768 次元埋め込み
-- ユーザー + アシスタント両方のメッセージをインデックス
+- Fast vector search via Cloudflare Vectorize
+- 768-dimensional embeddings with BGE-base-en-v1.5 model
+- Indexes both user and assistant messages
 
 ### Graph Memory
 
-- Prolog 形式で事実を保存: `predicate(subject, object)`
-- 例: `painted(Melanie, lake sunrise)`, `attended(Caroline, LGBTQ support group)`
-- 推論クエリに対応
+- Stores facts in Prolog format: `predicate(subject, object)`
+- Example: `painted(Melanie, lake sunrise)`, `attended(Caroline, LGBTQ support group)`
+- Supports inference queries
 
-## ライセンス
+## License
 
 MIT
