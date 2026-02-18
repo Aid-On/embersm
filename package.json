@@ -1,0 +1,46 @@
+{
+  "name": "@aid-on/embersm",
+  "version": "2.0.3",
+  "description": "EmbersM - Cloudflare Native Memory System with 5-Layer Architecture",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./testing": {
+      "import": "./dist/testing/index.js",
+      "types": "./dist/testing/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "benchmark": "npx tsx scripts/benchmark.ts"
+  },
+  "keywords": [
+    "cloudflare",
+    "workers",
+    "d1",
+    "kv",
+    "vectorize",
+    "memory",
+    "llm",
+    "ai"
+  ],
+  "author": "Aid-On",
+  "license": "MIT",
+  "dependencies": {
+    "@aid-on/unillm": "^0.5.4"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241127.0",
+    "typescript": "^5.0.0",
+    "vitest": "^2.0.0"
+  }
+}

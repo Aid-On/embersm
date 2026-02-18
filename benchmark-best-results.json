@@ -1,0 +1,162 @@
+[
+  {
+    "id": "q_001",
+    "category": "single_hop",
+    "correct": true,
+    "question": "When did Caroline go to the LGBTQ support group?",
+    "expected": "7 May 2023",
+    "generated": "Caroline went to the LGBTQ support group on 7 May, 2023, as mentioned in her message on 8 May, 2023, where she said \"I went to a LGBTQ support group yesterday\"."
+  },
+  {
+    "id": "q_002",
+    "category": "single_hop",
+    "correct": true,
+    "question": "When did Melanie paint a sunrise?",
+    "expected": "2022",
+    "generated": "Melanie painted a lake sunrise last year, which would be 2022, given the conversation took place on 8 May, 2023."
+  },
+  {
+    "id": "q_003",
+    "category": "multi_hop",
+    "correct": true,
+    "question": "What fields would Caroline be likely to pursue in her educaton?",
+    "expected": "Psychology, counseling certification",
+    "generated": "Caroline would be likely to pursue counseling or mental health fields in her education, as she has expressed interest in supporting those with similar issues and making a positive impact."
+  },
+  {
+    "id": "q_004",
+    "category": "single_hop",
+    "correct": false,
+    "question": "What did Caroline research?",
+    "expected": "Adoption agencies",
+    "generated": "Caroline went to do some research, but the specific topic is not mentioned."
+  },
+  {
+    "id": "q_005",
+    "category": "single_hop",
+    "correct": true,
+    "question": "What is Caroline's identity?",
+    "expected": "Transgender woman",
+    "generated": "Caroline is a trans woman, as she mentions that her art is about expressing her trans experience and showing her story to help people understand the trans community."
+  },
+  {
+    "id": "q_006",
+    "category": "single_hop",
+    "correct": false,
+    "question": "When did Melanie run a charity race?",
+    "expected": "The sunday before 25 May 2023",
+    "generated": "Melanie ran a charity race for mental health on the Saturday before 1:14 pm on 25 May, 2023."
+  },
+  {
+    "id": "q_007",
+    "category": "single_hop",
+    "correct": true,
+    "question": "When is Melanie planning on going camping?",
+    "expected": "June 2023",
+    "generated": "Melanie mentioned they were thinking about going camping next month in a conversation on [Date: 1:14 pm on 25 May, 2023], and later mentioned going on a camping trip in the mountains and forest on [Date: 1:51 pm on 15 July, 2023] and [Date: 2:31 pm on 17 July, 2023], indicating the camping trip likely took place in June or July 2023."
+  },
+  {
+    "id": "q_008",
+    "category": "single_hop",
+    "correct": false,
+    "question": "What is Caroline's relationship status?",
+    "expected": "Single",
+    "generated": "Caroline is likely in a relationship or planning to start a family, as Melanie mentions \"your future fam\" and Caroline talks about her friends being supportive after a \"tough breakup\", implying she has moved on."
+  },
+  {
+    "id": "q_009",
+    "category": "single_hop",
+    "correct": true,
+    "question": "When did Caroline give a speech at a school?",
+    "expected": "The week before 9 June 2023",
+    "generated": "Caroline gave a speech at a school the week before June 9, 2023, as she mentioned it was \"last week\" when she talked to Melanie on June 9, 2023."
+  },
+  {
+    "id": "q_010",
+    "category": "single_hop",
+    "correct": true,
+    "question": "When did Caroline meet up with her friends, family, and mentors?",
+    "expected": "The week before 9 June 2023",
+    "generated": "Caroline met up with her friends, family, and mentors the week before June 9, 2023."
+  },
+  {
+    "id": "q_011",
+    "category": "single_hop",
+    "correct": true,
+    "question": "How long has Caroline had her current group of friends for?",
+    "expected": "4 years",
+    "generated": "Caroline has had her current group of friends for 4 years, since she moved from her home country."
+  },
+  {
+    "id": "q_012",
+    "category": "single_hop",
+    "correct": false,
+    "question": "Where did Caroline move from 4 years ago?",
+    "expected": "Sweden",
+    "generated": "Caroline moved from her home country 4 years ago."
+  },
+  {
+    "id": "q_013",
+    "category": "single_hop",
+    "correct": false,
+    "question": "How long ago was Caroline's 18th birthday?",
+    "expected": "10 years ago",
+    "generated": "I don't have that information."
+  },
+  {
+    "id": "q_014",
+    "category": "single_hop",
+    "correct": false,
+    "question": "What career path has Caroline decided to persue?",
+    "expected": "counseling or mental health for Transgender people",
+    "generated": "Caroline has decided to pursue a career in counseling or mental health, as she wants to help people who have gone through similar experiences as her and make a positive impact."
+  },
+  {
+    "id": "q_015",
+    "category": "multi_hop",
+    "correct": false,
+    "question": "Would Caroline still want to pursue counseling as a career if she hadn't received support growing up?",
+    "expected": "Likely no",
+    "generated": "It's likely that Caroline's desire to pursue counseling as a career is heavily influenced by the support she received, as she mentions that the support she got was \"really helpful\" and motivated her to help others. If she hadn't received support growing up, she may not have developed the same passion for counseling and mental health."
+  },
+  {
+    "id": "q_016",
+    "category": "single_hop",
+    "correct": false,
+    "question": "What activities does Melanie partake in?",
+    "expected": "pottery, camping, painting, swimming",
+    "generated": "Melanie enjoys activities such as running, reading, playing her violin, and pottery, which she finds refreshing and a form of self-expression."
+  },
+  {
+    "id": "q_017",
+    "category": "single_hop",
+    "correct": true,
+    "question": "When did Melanie sign up for a pottery class?",
+    "expected": "2 July 2023",
+    "generated": "Melanie signed up for a pottery class on the day before July 3, 2023, as she mentioned she \"just signed up for a pottery class yesterday\" on [Date: 1:36 pm on 3 July, 2023]."
+  },
+  {
+    "id": "q_018",
+    "category": "single_hop",
+    "correct": true,
+    "question": "When is Caroline going to the transgender conference?",
+    "expected": "July 2023",
+    "generated": "Caroline is going to the transgender conference this month, as mentioned on July 3, 2023, but the exact date is not specified."
+  },
+  {
+    "id": "q_019",
+    "category": "single_hop",
+    "correct": true,
+    "question": "Where has Melanie camped?",
+    "expected": "beach, mountains, forest",
+    "generated": "Melanie has camped in the mountains, at the beach, and in the forest."
+  },
+  {
+    "id": "q_020",
+    "category": "single_hop",
+    "correct": true,
+    "question": "What do Melanie's kids like?",
+    "expected": "dinosaurs, nature",
+    "generated": "Melanie's kids like learning about animals, making things with clay, and going to the beach; they also enjoy the dinosaur exhibit and had a blast at a concert for one of their birthdays."
+  }
+]
